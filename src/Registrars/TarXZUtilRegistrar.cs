@@ -20,7 +20,7 @@ public static class TarXZUtilRegistrar
     {
         services.AddDirectoryUtilAsSingleton()
                 .AddFileUtilSyncAsSingleton()
-                .AddXzUtilAsSingleton()
+                .AddXZUtilAsSingleton()
                 .AddTarUtilAsSingleton()
                 .TryAddSingleton<ITarXZUtil, TarXZUtil>();
 
@@ -32,7 +32,7 @@ public static class TarXZUtilRegistrar
     /// </summary>
     public static IServiceCollection AddTarXZUtilAsScoped(this IServiceCollection services)
     {
-        services.AddDirectoryUtilAsScoped().AddFileUtilSyncAsScoped().AddXzUtilAsScoped().AddTarUtilAsScoped().TryAddScoped<ITarXZUtil, TarXZUtil>();
+        services.AddDirectoryUtilAsScoped().AddFileUtilSyncAsScoped().AddXZUtilAsScoped().AddTarUtilAsScoped().TryAddScoped<ITarXZUtil, TarXZUtil>();
 
         return services;
     }
