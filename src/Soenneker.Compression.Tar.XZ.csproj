@@ -47,6 +47,6 @@
         <PackageReference Include="Soenneker.Compression.XZ" Version="3.0.3" />
         <PackageReference Include="Soenneker.Extensions.ValueTask" Version="3.0.93" />
         <PackageReference Include="Soenneker.Utils.Directory" Version="3.0.711" />
-        <PackageReference Include="Soenneker.Utils.FileSync" Version="3.0.1794" />
+        <PackageReference Include="Soenneker.Utils.FileSync" Version="3.0.1795" />
     </ItemGroup>
 </Project>
