@@ -8,7 +8,7 @@ using System;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using Soenneker.Utils.FileSync.Abstract;
+using Soenneker.Utils.File.Abstract;
 
 namespace Soenneker.Compression.Tar.XZ;
 
@@ -19,15 +19,15 @@ public sealed class TarXZUtil : ITarXZUtil
     private readonly IXZUtil _xzUtil;
     private readonly ILogger<TarXZUtil> _logger;
     private readonly IDirectoryUtil _directoryUtil;
-    private readonly IFileUtilSync _fileUtilSync;
+    private readonly IFileUtil _fileUtil;
 
-    public TarXZUtil(ITarUtil tarUtil, IXZUtil xzUtil, ILogger<TarXZUtil> logger, IDirectoryUtil directoryUtil, IFileUtilSync fileUtilSync)
+    public TarXZUtil(ITarUtil tarUtil, IXZUtil xzUtil, ILogger<TarXZUtil> logger, IDirectoryUtil directoryUtil, IFileUtil fileUtil)
     {
         _tarUtil = tarUtil;
         _xzUtil = xzUtil;
         _logger = logger;
         _directoryUtil = directoryUtil;
-        _fileUtilSync = fileUtilSync;
+        _fileUtil = fileUtil;
     }
 
     public async ValueTask DecompressAndExtract(string filePath, string destinationDir, string? decompressedFileDir = null, bool deleteDecompressedFile = true,
@@ -48,6 +48,6 @@ public sealed class TarXZUtil : ITarXZUtil
         _tarUtil.Extract(outputFilePath, destinationDir, cancellationToken);
 
         if (deleteDecompressedFile)
-            _fileUtilSync.TryDelete(outputFilePath);
+            await _fileUtil.TryDelete(outputFilePath, cancellationToken: cancellationToken).NoSync();
     }
 }

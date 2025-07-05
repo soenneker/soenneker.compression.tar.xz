@@ -4,7 +4,7 @@ using Soenneker.Compression.Tar.Registrars;
 using Soenneker.Compression.Tar.XZ.Abstract;
 using Soenneker.Compression.XZ.Registrars;
 using Soenneker.Utils.Directory.Registrars;
-using Soenneker.Utils.FileSync.Registrars;
+using Soenneker.Utils.File.Registrars;
 
 namespace Soenneker.Compression.Tar.XZ.Registrars;
 
@@ -19,7 +19,7 @@ public static class TarXZUtilRegistrar
     public static IServiceCollection AddTarXZUtilAsSingleton(this IServiceCollection services)
     {
         services.AddDirectoryUtilAsSingleton()
-                .AddFileUtilSyncAsSingleton()
+                .AddFileUtilAsSingleton()
                 .AddXZUtilAsSingleton()
                 .AddTarUtilAsSingleton()
                 .TryAddSingleton<ITarXZUtil, TarXZUtil>();
@@ -32,7 +32,7 @@ public static class TarXZUtilRegistrar
     /// </summary>
     public static IServiceCollection AddTarXZUtilAsScoped(this IServiceCollection services)
     {
-        services.AddDirectoryUtilAsScoped().AddFileUtilSyncAsScoped().AddXZUtilAsScoped().AddTarUtilAsScoped().TryAddScoped<ITarXZUtil, TarXZUtil>();
+        services.AddDirectoryUtilAsScoped().AddFileUtilAsScoped().AddXZUtilAsScoped().AddTarUtilAsScoped().TryAddScoped<ITarXZUtil, TarXZUtil>();
 
         return services;
     }
