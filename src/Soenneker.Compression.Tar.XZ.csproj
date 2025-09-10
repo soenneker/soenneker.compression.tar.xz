@@ -42,11 +42,9 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.9" />
         <PackageReference Include="Soenneker.Compression.Tar" Version="3.0.10" />
         <PackageReference Include="Soenneker.Compression.XZ" Version="3.0.10" />
-        <PackageReference Include="Soenneker.Extensions.ValueTask" Version="3.0.95" />
-        <PackageReference Include="Soenneker.Utils.Directory" Version="3.0.728" />        <PackageReference Include="Soenneker.Utils.File" Version="3.0.1980" />
-
+        <PackageReference Include="Soenneker.Utils.Directory" Version="3.0.728" />
+        <PackageReference Include="Soenneker.Utils.File" Version="3.0.1980" />
     </ItemGroup>
 </Project>
