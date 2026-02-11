@@ -45,7 +45,7 @@ public sealed class TarXZUtil : ITarXZUtil
 
         await _xzUtil.Decompress(filePath, outputFilePath, cancellationToken).NoSync();
 
-        _tarUtil.Extract(outputFilePath, destinationDir, cancellationToken);
+        await _tarUtil.Extract(outputFilePath, destinationDir, cancellationToken).NoSync();
 
         if (deleteDecompressedFile)
             await _fileUtil.TryDelete(outputFilePath, cancellationToken: cancellationToken).NoSync();
