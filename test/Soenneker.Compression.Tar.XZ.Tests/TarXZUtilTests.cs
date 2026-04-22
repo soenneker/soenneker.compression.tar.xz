@@ -1,28 +1,27 @@
-﻿using Soenneker.Compression.Tar.XZ.Abstract;
-using Soenneker.Facts.Local;
-using Soenneker.Tests.FixturedUnit;
+using Soenneker.Compression.Tar.XZ.Abstract;
+using Soenneker.Tests.Attributes.Local;
+using Soenneker.Tests.HostedUnit;
 using System.Threading.Tasks;
-using Xunit;
 
 namespace Soenneker.Compression.Tar.XZ.Tests;
 
-[Collection("Collection")]
-public sealed class TarXZUtilTests : FixturedUnitTest
+[ClassDataSource<Host>(Shared = SharedType.PerTestSession)]
+public sealed class TarXZUtilTests : HostedUnitTest
 {
     private readonly ITarXZUtil _util;
 
-    public TarXZUtilTests(Fixture fixture, ITestOutputHelper output) : base(fixture, output)
+    public TarXZUtilTests(Host host) : base(host)
     {
         _util = Resolve<ITarXZUtil>(true);
     }
 
-    [Fact]
+    [Test]
     public void Default()
     {
 
     }
 
-    [LocalFact]
+    [LocalOnly]
     public async ValueTask DecompressAndExtract()
     {
         await _util.DecompressAndExtract(@"c:\7zip\7zip.tar.xz", @"c:\dest", null, true, CancellationToken);
