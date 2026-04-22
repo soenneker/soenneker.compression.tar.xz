@@ -38,7 +38,7 @@ jobs:
         run: dotnet build test/Soenneker.Compression.Tar.XZ.Tests/Soenneker.Compression.Tar.XZ.Tests.csproj --configuration Release --no-restore --verbosity minimal
 
       - name: Test
-        run: dotnet test test/Soenneker.Compression.Tar.XZ.Tests/Soenneker.Compression.Tar.XZ.Tests.csproj --configuration Release --no-build --no-restore --verbosity minimal
+        run: dotnet test --project test/Soenneker.Compression.Tar.XZ.Tests/Soenneker.Compression.Tar.XZ.Tests.csproj --configuration Release --no-build --no-restore --verbosity minimal
 
       - name: Pack
         run: dotnet pack src/Soenneker.Compression.Tar.XZ/Soenneker.Compression.Tar.XZ.csproj --configuration Release --no-build --no-restore --output . --verbosity minimal
