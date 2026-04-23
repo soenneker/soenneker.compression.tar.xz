@@ -24,6 +24,7 @@ public sealed class TarXZUtilTests : HostedUnitTest
     [LocalOnly]
     public async ValueTask DecompressAndExtract()
     {
-        await _util.DecompressAndExtract(@"c:\7zip\7zip.tar.xz", @"c:\dest", null, true, CancellationToken);
+        await _util.DecompressAndExtract(@"c:\7zip\7zip.tar.xz", @"c:\dest", null, true, System.Threading.CancellationToken.None);
     }
 }
+
