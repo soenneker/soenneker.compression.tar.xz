@@ -47,6 +47,6 @@
         <PackageReference Include="Soenneker.Compression.Tar" Version="4.0.78" />
         <PackageReference Include="Soenneker.Compression.XZ" Version="4.0.76" />
         <PackageReference Include="Soenneker.Utils.Directory" Version="4.0.868" />
-        <PackageReference Include="Soenneker.Utils.File" Version="4.0.2174" />
+        <PackageReference Include="Soenneker.Utils.File" Version="4.0.2175" />
     </ItemGroup>
 </Project>
