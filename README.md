@@ -3,11 +3,41 @@
 [![](https://img.shields.io/nuget/dt/soenneker.compression.tar.xz.svg?style=for-the-badge)](https://www.nuget.org/packages/soenneker.compression.tar.xz/)
 [![](https://img.shields.io/github/actions/workflow/status/soenneker/soenneker.compression.tar.xz/codeql.yml?label=CodeQL&style=for-the-badge)](https://github.com/soenneker/soenneker.compression.tar.xz/actions/workflows/codeql.yml)
 
-# ![](https://user-images.githubusercontent.com/4441470/224455560-91ed3ee7-f510-4041-a8d2-3fc093025112.png) Soenneker.Compression.Tar.XZ
-### A utility library dealing with Tar and XZ (tar.xz) extraction/archiving and (de)compression
+# Soenneker.Compression.Tar.XZ
 
-## Installation
+A utility library dealing with Tar and XZ (tar.xz) extraction/archiving and (de)compression.
 
-```
+## Install
+
+```bash
 dotnet add package Soenneker.Compression.Tar.XZ
 ```
+
+## Quick start
+
+```csharp
+using Soenneker.Compression.Tar.XZ.Registrars;
+using Microsoft.Extensions.DependencyInjection;
+
+var services = new ServiceCollection();
+var result = services.AddTarXZUtilAsSingleton();
+```
+
+Adds `ITarXZUtil` as a singleton service.
+
+## What you get
+
+- `ITarXZUtil` — A utility library dealing with Tar and XZ (tar.xz) extraction/archiving and (de)compression.
+- `TarXZUtilRegistrar` — A utility library dealing with Tar and XZ (tar.xz) extraction/archiving and (de)compression.
+
+## API at a glance
+
+| API | What it does | Result / important behavior |
+| --- | --- | --- |
+| `ITarXZUtil.DecompressAndExtract(filePath, destinationDir, decompressedFileDir, deleteDecompressedFile, cancellationToken)` | Decompresses and Extract. | A task that completes when the decompress and extract operation is complete. |
+| `TarXZUtilRegistrar.AddTarXZUtilAsSingleton(services)` | Adds `ITarXZUtil` as a singleton service. | The same service collection, so additional registrations can be chained. |
+| `TarXZUtilRegistrar.AddTarXZUtilAsScoped(services)` | Adds `ITarXZUtil` as a scoped service. | The same service collection, so additional registrations can be chained. |
+
+## Practical notes
+
+- Cancellation stops pending work; it does not undo work that has already completed.
