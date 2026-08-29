@@ -16,6 +16,8 @@ public static class TarXZUtilRegistrar
     /// <summary>
     /// Adds <see cref="ITarXZUtil"/> as a singleton service. <para/>
     /// </summary>
+    /// <param name="services">Service collection that receives the registration.</param>
+    /// <returns>The same service collection, so additional registrations can be chained.</returns>
     public static IServiceCollection AddTarXZUtilAsSingleton(this IServiceCollection services)
     {
         services.AddDirectoryUtilAsSingleton()
@@ -30,6 +32,8 @@ public static class TarXZUtilRegistrar
     /// <summary>
     /// Adds <see cref="ITarXZUtil"/> as a scoped service. <para/>
     /// </summary>
+    /// <param name="services">Service collection that receives the registration.</param>
+    /// <returns>The same service collection, so additional registrations can be chained.</returns>
     public static IServiceCollection AddTarXZUtilAsScoped(this IServiceCollection services)
     {
         services.AddDirectoryUtilAsScoped().AddFileUtilAsScoped().AddXZUtilAsScoped().AddTarUtilAsScoped().TryAddScoped<ITarXZUtil, TarXZUtil>();

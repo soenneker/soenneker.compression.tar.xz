@@ -9,14 +9,14 @@ namespace Soenneker.Compression.Tar.XZ.Abstract;
 public interface ITarXZUtil
 {
     /// <summary>
-    /// Executes the decompress and extract operation.
+    /// Decompresses and Extract.
     /// </summary>
-    /// <param name="filePath">The file path.</param>
-    /// <param name="destinationDir">The destination dir.</param>
-    /// <param name="decompressedFileDir">The decompressed file dir.</param>
-    /// <param name="deleteDecompressedFile">The delete decompressed file.</param>
-    /// <param name="cancellationToken">The cancellation token.</param>
-    /// <returns>A task that represents the asynchronous operation.</returns>
+    /// <param name="filePath">Path of the file to use.</param>
+    /// <param name="destinationDir">destination Dir that receives the result.</param>
+    /// <param name="decompressedFileDir">Decompressed File Dir for the decompress and extract operation.</param>
+    /// <param name="deleteDecompressedFile">Whether delete decompressed file.</param>
+    /// <param name="cancellationToken">Token used to cancel the operation.</param>
+    /// <returns>A task that completes when the decompress and extract operation is complete.</returns>
     ValueTask DecompressAndExtract(string filePath, string destinationDir, string? decompressedFileDir = null, bool deleteDecompressedFile = true,
         CancellationToken cancellationToken = default);
 }
