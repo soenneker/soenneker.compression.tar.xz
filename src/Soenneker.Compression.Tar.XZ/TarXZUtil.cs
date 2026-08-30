@@ -33,21 +33,36 @@ public sealed class TarXZUtil : ITarXZUtil
     public async ValueTask DecompressAndExtract(string filePath, string destinationDir, string? decompressedFileDir = null, bool deleteDecompressedFile = true,
         CancellationToken cancellationToken = default)
     {
-        if (!filePath.EndsWith(".tar.xz", StringComparison.OrdinalIgnoreCase))
-            throw new ArgumentException("Expected a .tar.xz file", nameof(filePath));
-
         _logger.LogDebug("Decompressing and extracting tar.xz file: {FilePath} to {DestinationDir} ...", filePath, destinationDir);
 
-        if (decompressedFileDir == null)
+        bool ownsIntermediateDirectory = decompressedFileDir is null;
+
+        if (ownsIntermediateDirectory)
             decompressedFileDir = await _directoryUtil.CreateTempDirectory(cancellationToken).NoSync();
+        else
+            await _directoryUtil.Create(decompressedFileDir!, true, cancellationToken).NoSync();
 
-        string outputFilePath = Path.Combine(decompressedFileDir, Path.GetFileNameWithoutExtension(filePath) + ".tar");
+        string outputFilePath = Path.Combine(decompressedFileDir!, Path.GetFileNameWithoutExtension(filePath));
 
-        await _xzUtil.Decompress(filePath, outputFilePath, cancellationToken).NoSync();
+        try
+        {
+            await _xzUtil.Decompress(filePath, outputFilePath, cancellationToken).NoSync();
 
-        await _tarUtil.Extract(outputFilePath, destinationDir, cancellationToken).NoSync();
-
-        if (deleteDecompressedFile)
-            await _fileUtil.TryDelete(outputFilePath, cancellationToken: cancellationToken).NoSync();
+            await _tarUtil.Extract(outputFilePath, destinationDir, cancellationToken).NoSync();
+        }
+        finally
+        {
+            try
+            {
+                if (ownsIntermediateDirectory)
+                    await _directoryUtil.DeleteIfExists(decompressedFileDir!, CancellationToken.None).NoSync();
+                else if (deleteDecompressedFile)
+                    await _fileUtil.TryDelete(outputFilePath, cancellationToken: CancellationToken.None).NoSync();
+            }
+            catch (Exception exception)
+            {
+                _logger.LogWarning(exception, "Could not remove the intermediate TAR output");
+            }
+        }
     }
 }

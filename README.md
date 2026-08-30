@@ -5,7 +5,7 @@
 
 # Soenneker.Compression.Tar.XZ
 
-A utility library dealing with Tar and XZ (tar.xz) extraction/archiving and (de)compression.
+Decompresses an XZ-compressed TAR archive and extracts its contents into a directory.
 
 ## Install
 
@@ -13,31 +13,47 @@ A utility library dealing with Tar and XZ (tar.xz) extraction/archiving and (de)
 dotnet add package Soenneker.Compression.Tar.XZ
 ```
 
-## Quick start
+## Registration
 
 ```csharp
 using Soenneker.Compression.Tar.XZ.Registrars;
 using Microsoft.Extensions.DependencyInjection;
 
 var services = new ServiceCollection();
-var result = services.AddTarXZUtilAsSingleton();
+services.AddTarXZUtilAsSingleton();
 ```
 
-Adds `ITarXZUtil` as a singleton service.
+Use `AddTarXZUtilAsScoped()` when its lifetime should follow a dependency-injection scope. Both registrations include the required TAR, XZ, file, and directory utilities.
 
-## What you get
+## Usage
 
-- `ITarXZUtil` — A utility library dealing with Tar and XZ (tar.xz) extraction/archiving and (de)compression.
-- `TarXZUtilRegistrar` — A utility library dealing with Tar and XZ (tar.xz) extraction/archiving and (de)compression.
+```csharp
+using Soenneker.Compression.Tar.XZ.Abstract;
 
-## API at a glance
+public sealed class PackageImporter(ITarXZUtil tarXzUtil)
+{
+    public ValueTask Import(string archivePath, string destinationPath, CancellationToken cancellationToken = default)
+    {
+        return tarXzUtil.DecompressAndExtract(archivePath, destinationPath, cancellationToken: cancellationToken);
+    }
+}
+```
 
-| API | What it does | Result / important behavior |
-| --- | --- | --- |
-| `ITarXZUtil.DecompressAndExtract(filePath, destinationDir, decompressedFileDir, deleteDecompressedFile, cancellationToken)` | Decompresses and Extract. | A task that completes when the decompress and extract operation is complete. |
-| `TarXZUtilRegistrar.AddTarXZUtilAsSingleton(services)` | Adds `ITarXZUtil` as a singleton service. | The same service collection, so additional registrations can be chained. |
-| `TarXZUtilRegistrar.AddTarXZUtilAsScoped(services)` | Adds `ITarXZUtil` as a scoped service. | The same service collection, so additional registrations can be chained. |
+By default, the intermediate TAR is written to a private temporary directory and removed after extraction, including when extraction fails or is cancelled.
+
+To control where the intermediate TAR is written, pass `decompressedFileDir`. Set `deleteDecompressedFile: false` only when you need to retain that TAR:
+
+```csharp
+await tarXzUtil.DecompressAndExtract(
+    "backup.tar.xz",
+    "extracted",
+    decompressedFileDir: "work",
+    deleteDecompressedFile: false,
+    cancellationToken);
+```
 
 ## Practical notes
 
-- Cancellation stops pending work; it does not undo work that has already completed.
+- The destination directory is caller-owned. Files extracted before a failure or cancellation are not removed.
+- The TAR extraction stage rejects links, path traversal, and destination collisions.
+- Archive path checks do not impose expansion limits. Apply file-count, output-size, and storage quotas when handling untrusted archives.
