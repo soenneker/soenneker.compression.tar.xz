@@ -45,11 +45,11 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Soenneker.Compression.Tar" Version="4.0.117" />
-        <PackageReference Include="Soenneker.Compression.XZ" Version="4.0.134" />
-        <PackageReference Include="Soenneker.Utils.Directory" Version="4.0.951" />
+        <PackageReference Include="Soenneker.Compression.Tar" Version="4.0.118" />
+        <PackageReference Include="Soenneker.Compression.XZ" Version="4.0.135" />
+        <PackageReference Include="Soenneker.Utils.Directory" Version="4.0.954" />
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="Soenneker.Extensions.ValueTask" Version="4.0.126" />
+        <PackageReference Include="Soenneker.Extensions.ValueTask" Version="4.0.127" />
     </ItemGroup>
 </Project>
