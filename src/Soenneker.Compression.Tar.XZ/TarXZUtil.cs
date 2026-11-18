@@ -33,7 +33,8 @@ public sealed class TarXZUtil : ITarXZUtil
     public async ValueTask DecompressAndExtract(string filePath, string destinationDir, string? decompressedFileDir = null, bool deleteDecompressedFile = true,
         CancellationToken cancellationToken = default)
     {
-        _logger.LogDebug("Decompressing and extracting tar.xz file: {FilePath} to {DestinationDir} ...", filePath, destinationDir);
+        if (_logger.IsEnabled(LogLevel.Debug))
+            _logger.LogDebug("Decompressing and extracting tar.xz file: {FilePath} to {DestinationDir} ...", filePath, destinationDir);
 
         bool ownsIntermediateDirectory = decompressedFileDir is null;
 
